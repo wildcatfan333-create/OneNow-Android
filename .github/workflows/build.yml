@@ -27,7 +27,10 @@ jobs:
 
       - name: Unzip OneNow
         run: unzip -q OneNow-Android-v1.zip -d extracted
-
+      - name: Enable AndroidX
+        run: |
+          echo "android.useAndroidX=true" > extracted/OneNow-Android-v1/gradle.properties
+          echo "android.enableJetifier=true" >> extracted/OneNow-Android-v1/gradle.properties
       - name: Build APK
         run: |
           cd extracted/OneNow-Android-v1
