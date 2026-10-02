@@ -1,4 +1,4 @@
-name: Build OneNow Android APK
+name: Build OneNow Android AAB
 
 on:
   workflow_dispatch:
@@ -27,17 +27,19 @@ jobs:
 
       - name: Unzip OneNow
         run: unzip -q OneNow-Android-v1.zip -d extracted
+
       - name: Enable AndroidX
         run: |
           echo "android.useAndroidX=true" > extracted/OneNow-Android-v1/gradle.properties
           echo "android.enableJetifier=true" >> extracted/OneNow-Android-v1/gradle.properties
-      - name: Build APK
+
+      - name: Build Google Play AAB
         run: |
           cd extracted/OneNow-Android-v1
-          gradle :app:assembleDebug
+          gradle :app:bundleRelease
 
-      - name: Save APK
+      - name: Save AAB
         uses: actions/upload-artifact@v4
         with:
-          name: OneNow-Android-APK
-          path: extracted/OneNow-Android-v1/app/build/outputs/apk/debug/app-debug.apk
+          name: OneNow-Google-Play-AAB
+          path: extracted/OneNow-Android-v1/app/build/outputs/bundle/release/app-release.aab
